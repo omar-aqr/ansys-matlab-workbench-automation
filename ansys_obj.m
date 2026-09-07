@@ -5,7 +5,7 @@ function fitness = ansys_obj (x)
     Outer = x(1);
 
     % Generate unique Excel file name to avoid file collisions
-    filename = tempname();
+    filenum = randi(100000,1);
 
     % Read Base Journal Template
     fid = fopen('Base Journal.wbjn','r');
@@ -15,7 +15,7 @@ function fitness = ansys_obj (x)
     % Inject Design Variables & Output File Name
     f = strrep(f,'Inner', num2str(Inner));
     f = strrep(f,'Outer', num2str(Outer));
-    f = strrep(f,'output_results', num2str(filename));
+    f = strrep(f,'output_results', num2str(filenum));
     
 
     % Write Executable Journal
@@ -36,7 +36,7 @@ function fitness = ansys_obj (x)
     end
 
     % Extract objective result from CSV
-    filename = sprintf('%i.csv', filename);
+    filename = sprintf('%i.csv', filenum);
     fid = fopen(filename,'r');
     lines = textscan(fid,'%s','Delimiter','\n','Whitespace','');
     fclose(fid);
